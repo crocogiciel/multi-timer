@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm run *)",
+      "Bash(mkdir -p /Users/gmonrolin/Documents/multi-timer/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(pkill -f \"next dev\")"
     ]
   }
 }
