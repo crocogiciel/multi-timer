@@ -160,13 +160,10 @@ export function SequenceEditor({
                 <StepTile
                   timer={timer}
                   index={i}
-                  total={sequence.timers.length}
                   isActive={activeTimerIndex === i}
                   onUpdate={patch => onUpdateTimer(timer.id, patch)}
                   onDelete={() => onDeleteTimer(timer.id)}
                   onDuplicate={() => onDuplicateTimer(timer.id)}
-                  onMoveUp={() => onMoveTimer(i, i - 1)}
-                  onMoveDown={() => onMoveTimer(i, i + 1)}
                 />
                 {sequence.gapDuration > 0 && i < sequence.timers.length - 1 && (
                   <GapDivider duration={sequence.gapDuration} />

@@ -73,13 +73,10 @@ function DurationInput({
 interface Props {
   timer: TimerBlock
   index: number
-  total: number
   isActive?: boolean
   onUpdate: (patch: Partial<TimerBlock>) => void
   onDelete: () => void
   onDuplicate: () => void
-  onMoveUp: () => void
-  onMoveDown: () => void
 }
 
 function GripHandle(props: React.HTMLAttributes<HTMLDivElement>) {
@@ -102,8 +99,8 @@ function GripHandle(props: React.HTMLAttributes<HTMLDivElement>) {
 }
 
 export function StepTile({
-  timer, index, total, isActive,
-  onUpdate, onDelete, onDuplicate, onMoveUp, onMoveDown,
+  timer, index, isActive,
+  onUpdate, onDelete, onDuplicate,
 }: Props) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: timer.id })
 
@@ -152,10 +149,9 @@ export function StepTile({
 
         {/* Actions — always visible on mobile */}
         <div className="flex items-center gap-0.5 shrink-0">
-          <button onClick={onMoveUp} disabled={index === 0}
-            className="w-7 h-7 rounded-lg bg-slate-700/60 text-slate-400 active:bg-slate-600 disabled:opacity-20 text-xs flex items-center justify-center transition-colors">▲</button>
-          <button onClick={onMoveDown} disabled={index === total - 1}
-            className="w-7 h-7 rounded-lg bg-slate-700/60 text-slate-400 active:bg-slate-600 disabled:opacity-20 text-xs flex items-center justify-center transition-colors">▼</button>
+          <button onClick={onDuplicate}
+            className="w-7 h-7 rounded-lg bg-slate-700/60 text-slate-400 active:bg-slate-600 text-xs flex items-center justify-center transition-colors"
+            title="Dupliquer">⧉</button>
           <button onClick={onDelete}
             className="w-7 h-7 rounded-lg bg-slate-700/60 text-slate-400 active:text-red-300 active:bg-red-900 text-xs flex items-center justify-center transition-colors"
             title="Supprimer">✕</button>
@@ -173,11 +169,6 @@ export function StepTile({
             </div>
           </div>
           <div className="flex items-center gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
-            <button onClick={onMoveUp} disabled={index === 0}
-              className="w-6 h-6 rounded bg-slate-700/70 hover:bg-slate-600 text-slate-400 hover:text-slate-200 disabled:opacity-20 text-xs flex items-center justify-center transition-colors">▲</button>
-            <button onClick={onMoveDown} disabled={index === total - 1}
-              className="w-6 h-6 rounded bg-slate-700/70 hover:bg-slate-600 text-slate-400 hover:text-slate-200 disabled:opacity-20 text-xs flex items-center justify-center transition-colors">▼</button>
-            <div className="w-px h-4 bg-slate-700 mx-0.5" />
             <button onClick={onDuplicate}
               className="w-6 h-6 rounded bg-slate-700/70 hover:bg-slate-600 text-slate-400 hover:text-white text-xs flex items-center justify-center transition-colors" title="Dupliquer">⧉</button>
             <button onClick={onDelete}
