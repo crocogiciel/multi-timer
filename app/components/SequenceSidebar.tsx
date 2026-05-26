@@ -9,9 +9,10 @@ interface Props {
   onDuplicate: (id: string) => void
   onDelete: (id: string) => void
   onRename: (id: string, name: string) => void
+  onOpenExportImport: () => void
 }
 
-export function SequenceSidebar({ sequences, activeId, onSelect, onCreate, onDuplicate, onDelete, onRename }: Props) {
+export function SequenceSidebar({ sequences, activeId, onSelect, onCreate, onDuplicate, onDelete, onRename, onOpenExportImport }: Props) {
   return (
     <aside className="w-64 bg-slate-900 border-r border-slate-700 flex flex-col shrink-0">
       <div className="p-4 border-b border-slate-700">
@@ -53,12 +54,18 @@ export function SequenceSidebar({ sequences, activeId, onSelect, onCreate, onDup
         )}
       </div>
 
-      <div className="p-3 border-t border-slate-700">
+      <div className="p-3 border-t border-slate-700 space-y-2">
         <button
           onClick={onCreate}
           className="w-full py-2 rounded-lg bg-cyan-700 hover:bg-cyan-600 text-white text-sm font-medium transition-colors"
         >
           + Nouvelle séquence
+        </button>
+        <button
+          onClick={onOpenExportImport}
+          className="w-full py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 text-xs font-medium transition-colors"
+        >
+          ↑↓ Import / Export
         </button>
       </div>
     </aside>

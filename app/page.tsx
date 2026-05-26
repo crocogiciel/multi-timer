@@ -20,6 +20,7 @@ export default function Home() {
     updateTimer,
     deleteTimer,
     moveTimer,
+    importSequences,
   } = useSequences()
 
   const orientation = useOrientation()
@@ -41,6 +42,7 @@ export default function Home() {
     onMoveTimer: (from: number, to: number) => active && moveTimer(active.id, from, to),
     onUpdateSettings: (patch: Parameters<typeof updateSequenceSettings>[1]) =>
       active && updateSequenceSettings(active.id, patch),
+    onImport: importSequences,
   }
 
   return orientation === 'portrait'
