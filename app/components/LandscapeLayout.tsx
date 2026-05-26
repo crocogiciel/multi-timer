@@ -1,8 +1,10 @@
 'use client'
+import { useState } from 'react'
 import { Sequence, TimerBlock } from '../types'
 import { SequenceSidebar } from './SequenceSidebar'
 import { SequenceEditor } from './SequenceEditor'
 import { Player } from './Player'
+import { ExportImportModal } from './ExportImportModal'
 
 interface Props {
   sequences: Sequence[]
@@ -19,15 +21,27 @@ interface Props {
   onDeleteTimer: (timerId: string) => void
   onMoveTimer: (from: number, to: number) => void
   onUpdateSettings: (patch: Partial<Pick<Sequence, 'gapDuration' | 'tickLeadTime' | 'gapTickLeadTime'>>) => void
+  onImport: (seqs: Sequence[]) => void
 }
 
 export function LandscapeLayout({
   sequences, active, activeId,
   onSelect, onCreate, onDuplicate, onDelete, onRename,
   onAddTimer, onUpdateTimer, onDuplicateTimer, onDeleteTimer, onMoveTimer, onUpdateSettings,
+  onImport,
 }: Props) {
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <div className="h-screen flex bg-slate-950 text-white overflow-hidden">
+      {modalOpen && (
+        <ExportImportModal
+          sequences={sequences}
+          onImport={onImport}
+          onClose={() => setModalOpen(false)}
+        />
+      )}
+
       {/* Col 1: sequence list */}
       <SequenceSidebar
         sequences={sequences}
@@ -37,6 +51,7 @@ export function LandscapeLayout({
         onDuplicate={onDuplicate}
         onDelete={onDelete}
         onRename={onRename}
+        onOpenExportImport={() => setModalOpen(true)}
       />
 
       {/* Col 2: builder */}

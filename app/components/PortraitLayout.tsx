@@ -4,6 +4,7 @@ import { Sequence, TimerBlock } from '../types'
 import { SequenceSidebar } from './SequenceSidebar'
 import { SequenceEditor } from './SequenceEditor'
 import { Player, PlayerRef } from './Player'
+import { ExportImportModal } from './ExportImportModal'
 
 type Mode = 'build' | 'play'
 
@@ -22,15 +23,18 @@ interface Props {
   onDeleteTimer: (timerId: string) => void
   onMoveTimer: (from: number, to: number) => void
   onUpdateSettings: (patch: Partial<Pick<Sequence, 'gapDuration' | 'tickLeadTime' | 'gapTickLeadTime'>>) => void
+  onImport: (seqs: Sequence[]) => void
 }
 
 export function PortraitLayout({
   sequences, active, activeId,
   onSelect, onCreate, onDuplicate, onDelete, onRename,
   onAddTimer, onUpdateTimer, onDuplicateTimer, onDeleteTimer, onMoveTimer, onUpdateSettings,
+  onImport,
 }: Props) {
   const [mode, setMode] = useState<Mode>('build')
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
   const playerRef = useRef<PlayerRef>(null)
 
   const stepCount = active?.timers.length ?? 0
@@ -124,6 +128,15 @@ export function PortraitLayout({
         </div>
       </div>
 
+      {/* Export/Import modal */}
+      {modalOpen && (
+        <ExportImportModal
+          sequences={sequences}
+          onImport={onImport}
+          onClose={() => setModalOpen(false)}
+        />
+      )}
+
       {/* Sidebar drawer */}
       {sidebarOpen && (
         <>
@@ -140,6 +153,7 @@ export function PortraitLayout({
               onDuplicate={onDuplicate}
               onDelete={onDelete}
               onRename={onRename}
+              onOpenExportImport={() => { setSidebarOpen(false); setModalOpen(true) }}
             />
           </div>
         </>

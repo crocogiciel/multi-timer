@@ -116,6 +116,17 @@ export function useSequences() {
     }))
   }, [sequences, persist])
 
+  const importSequences = useCallback((incoming: Sequence[]) => {
+    const withNewIds: Sequence[] = incoming.map(s => ({
+      ...s,
+      id: uid(),
+      timers: s.timers.map(t => ({ ...t, id: uid() })),
+    }))
+    const next = [...sequences, ...withNewIds]
+    persist(next)
+    if (withNewIds.length > 0) setActiveId(withNewIds[0].id)
+  }, [sequences, persist])
+
   const active = sequences.find(s => s.id === activeId) ?? null
 
   return {
@@ -133,5 +144,6 @@ export function useSequences() {
     updateTimer,
     deleteTimer,
     moveTimer,
+    importSequences,
   }
 }
